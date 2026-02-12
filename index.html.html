@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>For You ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+  <!-- Confetti Library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #fff5f8, #fde2e4);
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .content {
+      max-width: 700px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 1s ease;
+    }
+
+    .content.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h1, h2 {
+      font-family: 'Playfair Display', serif;
+    }
+
+    h1 { font-size: 2.4rem; margin-bottom: 16px; }
+    h2 { font-size: 1.6rem; margin-bottom: 10px; }
+
+    p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+    }
+
+    .buttons {
+      margin-top: 40px;
+      position: relative;
+      height: 120px;
+    }
+
+    button {
+      padding: 14px 32px;
+      font-size: 1rem;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .yes {
+      background: #ff4d6d;
+      color: #fff;
+    }
+
+    .no {
+      position: absolute;
+      background: #ccc;
+    }
+
+    .final-message {
+      display: none;
+      font-size: 2rem;
+      margin-top: 30px;
+      color: #ff4d6d;
+    }
+
+    .screenshot-hint {
+      display: none;
+      margin-top: 15px;
+      font-size: 1rem;
+      color: #666;
+    }
+
+    /* Mobile polish */
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      p { font-size: 1rem; }
+      button { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Sections (unchanged text) -->
+  <section><div class="content"><h1>Hi Babe ❤️</h1><p>I know, I'm very very late for this. but I wanted to make it special, and not wanted to ask you normally. I know you're pretty upset from last 3 days. so sorry to make you wait. My love.</p></div></section>
+  <section><div class="content"><h1>The Day I Met You…</h1><p>From the first day, you’ve been my reason to smile, and I can’t live a single day without seeing a smile on your face. You’re the most important person in my life, Gautmi. ❤️</p></div></section>
+  <section><div class="content"><h1>Somewhere Along The Way</h1><p>You became my comfort. My laughter. The person I want to tell everything to.</p></div></section>
+  <section><div class="content"><h1>And Now…</h1><p>I want to spend my life with you, and especially on 14th Feb, I really want to be there with you — to hug you, kiss you, and just hold you tight. ❤️</p></div></section>
+
+  <!-- FINAL -->
+  <section>
+    <div class="content">
+      <h1>So, Ms. Gautmi Sharma (my bubu)</h1>
+      <h2>WILL YOU BE MY VALENTINE?</h2>
+
+      <div class="buttons">
+        <button class="yes" onclick="sayYes()">Yes ❤️</button>
+        <button class="no" id="noBtn">No 🙈</button>
+      </div>
+
+      <div class="final-message" id="finalMessage">
+        You just made me the happiest ❤️ 🌸
+      </div>
+
+      <div class="screenshot-hint" id="screenshotHint">
+        📸 Take a screenshot 💕
+      </div>
+    </div>
+  </section>
+
+  <!-- MUSIC -->
+  <audio id="bgMusic" src="music.mp3"></audio>
+
+  <!-- EMAIL FORM -->
+  <form id="yesForm" action="https://formspree.io/f/meelajyj" method="POST" style="display:none;">
+    <input type="hidden" name="message" value="💖 She clicked YES ❤️">
+    <input type="hidden" name="time">
+  </form>
+
+  <script>
+    // fade in
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => e.isIntersecting && e.target.classList.add('show'));
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.content').forEach(c => observer.observe(c));
+
+    // No button
+    const noBtn = document.getElementById("noBtn");
+    noBtn.addEventListener("mouseover", () => {
+      noBtn.style.transform = `translate(${Math.random()*200-100}px, ${Math.random()*80-40}px)`;
+    });
+
+    function sayYes() {
+      document.querySelector(".buttons").style.display = "none";
+      document.getElementById("finalMessage").style.display = "block";
+      document.getElementById("screenshotHint").style.display = "block";
+
+      // 🎶 music
+      document.getElementById("bgMusic").play();
+
+      // 🎉 confetti hearts
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#ff4d6d', '#ff99aa']
+      });
+
+      // 📩 email notify
+      document.querySelector('input[name="time"]').value =
+        new Date().toLocaleString();
+      document.getElementById("yesForm").submit();
+    }
+  </script>
+
+</body>
+</html>
